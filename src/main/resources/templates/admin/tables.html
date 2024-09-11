@@ -181,25 +181,13 @@
 									<td>[[${item.discount}]]</td>
 									<td>[[${item.enteredDate}]]</td>
 									<td>
-										<a th:href="@{editProducts/{productId}(productId=${item.productId})}" class="btn btn-primary">Edit</a>
+										<a th:href="@{/admin1/editProducts/{productId}(productId=${item.productId})}" class="btn btn-primary">Edit</a>
 										<a th:href="@{deleteProducts/{productId}(productId=${item.productId})}"
 										   class="btn btn-danger"
 										   onclick="return confirmDelete();">
 											Delete
 										</a>
 									</td>
-								</tr>
-								<tr>
-									<th scope="row">2</th>
-									<td>Jacob</td>
-									<td>Thornton</td>
-									<td>@fat</td>
-								</tr>
-								<tr>
-									<th scope="row">3</th>
-									<td>Larry</td>
-									<td>the Bird</td>
-									<td>@twitter</td>
 								</tr>
 							</tbody>
 

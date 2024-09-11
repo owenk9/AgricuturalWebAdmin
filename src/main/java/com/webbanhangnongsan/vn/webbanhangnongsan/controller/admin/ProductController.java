@@ -4,6 +4,8 @@ import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Product;
 import com.webbanhangnongsan.vn.webbanhangnongsan.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -15,7 +17,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping("/admin1")
@@ -66,7 +70,7 @@ public class ProductController {
 
     }
 
-    // Hiển thị form chỉnh sửa sản phẩm
+//     Hiển thị form chỉnh sửa sản phẩm
     @GetMapping("/editProducts/{id}")
     public String editProductForm(@PathVariable("id") Long id, Model model) {
         Product product = productRepository.findById(id).orElse(null);
@@ -93,6 +97,8 @@ public class ProductController {
         productRepository.save(product);
         return "redirect:/admin1/tables";
     }
+
+
 
 
     // delete category
