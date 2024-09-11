@@ -180,9 +180,8 @@
 									<td>[[${item.quantity}]]</td>
 									<td>[[${item.discount}]]</td>
 									<td>[[${item.enteredDate}]]</td>
-
 									<td>
-										<button class="btn btn-primary">Edit</button>
+										<a th:href="@{editProducts/{productId}(productId=${item.productId})}" class="btn btn-primary">Edit</a>
 										<a th:href="@{deleteProducts/{productId}(productId=${item.productId})}"
 										   class="btn btn-danger"
 										   onclick="return confirmDelete();">

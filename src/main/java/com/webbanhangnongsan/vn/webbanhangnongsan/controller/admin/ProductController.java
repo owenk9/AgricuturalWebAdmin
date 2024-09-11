@@ -43,21 +43,7 @@ public class ProductController {
 
     @PostMapping("/addProducts")
     public String addNewProducts(@ModelAttribute("adminProduct") Product product, ModelMap model, @RequestParam("file") MultipartFile file){
-//        try {
-//
-//            File convFile = new File(pathUploadImage + "/" + file.getOriginalFilename());
-//            FileOutputStream fos = new FileOutputStream(convFile);
-//            fos.write(file.getBytes());
-//            fos.close();
-//        } catch (IOException e) {
-//
-//        }
-//
-        System.out.println(file.getOriginalFilename());
-
         product.setProductImage(file.getOriginalFilename());
-
-
         Product p = productRepository.save(product);
 
         if(p != null){
@@ -80,11 +66,32 @@ public class ProductController {
 
     }
 
-    @PutMapping("/editProducts/{id}")
-    public String editProducts(@PathVariable("id") Long id, Model model){
-        Product p = productRepository.findById(id).orElse(null);
+    // Hiển thị form chỉnh sửa sản phẩm
+    @GetMapping("/editProducts/{id}")
+    public String editProductForm(@PathVariable("id") Long id, Model model) {
+        Product product = productRepository.findById(id).orElse(null);
+        if (product == null) {
+            return "redirect:/admin1/tables";
+        }
+        model.addAttribute("editProduct", product);
+        return "admin/forms/edit_products";
+    }
 
-        return "";
+    @PostMapping("/editProducts")
+    public String editProduct(@ModelAttribute("editProduct") Product product, @RequestParam("file") MultipartFile file) {
+        if (!file.isEmpty()) {
+            product.setProductImage(file.getOriginalFilename());
+            try {
+                File saveFile = new ClassPathResource("static/productImages").getFile();
+                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        productRepository.save(product);
+        return "redirect:/admin1/tables";
     }
 
 
