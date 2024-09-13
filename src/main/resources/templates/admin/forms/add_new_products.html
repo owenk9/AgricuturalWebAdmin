@@ -131,11 +131,11 @@
                     <!-- Category -->
                     <div class="mb-3">
                         <label for="category" class="form-label">Category</label>
-                        <select class="form-select" id="category" name="category" required>
-                            <option selected disabled>Select category</option>
-                            <!-- Dynamically populate categories here -->
-                            <option value="1">Category 1</option>
-                            <option value="2">Category 2</option>
+                        <select th:field="*{category.categoryId}" class="form-select" id="category" name="category" required>
+                            <option th:each="item : ${categoryList}" selected
+                                th:value="${item.categoryId}" th:text="${item.categoryName}"
+                                th:selected="${item.categoryId == adminProduct.category.categoryId}">
+                            </option>
                         </select>
                     </div>
 

@@ -1,14 +1,18 @@
 package com.webbanhangnongsan.vn.webbanhangnongsan.controller.admin;
 
+import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Category;
 import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Product;
+import com.webbanhangnongsan.vn.webbanhangnongsan.repository.CategoryRepository;
 import com.webbanhangnongsan.vn.webbanhangnongsan.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -17,6 +21,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -26,6 +32,9 @@ import java.util.Map;
 public class ProductController {
     @Autowired
     ProductRepository productRepository;
+
+    @Autowired
+    CategoryRepository categoryRepository;
     @GetMapping("/tables")
     public String Product(Model model) {
         getData(model);
@@ -43,6 +52,14 @@ public class ProductController {
         model.addAttribute("adminProduct", product);
 
         return "admin/forms/add_new_products";
+    }
+
+    @ModelAttribute("categoryList")
+    public List<Category> showCategory(Model model) {
+        List<Category> categoryList = categoryRepository.findAll();
+        model.addAttribute("categoryList", categoryList);
+
+        return categoryList;
     }
 
     @PostMapping("/addProducts")
@@ -81,9 +98,28 @@ public class ProductController {
         return "admin/forms/edit_products";
     }
 
+//    @PostMapping("/editProducts")
+//    public String editProduct(@ModelAttribute("editProduct") Product product, @RequestParam("file") MultipartFile file) {
+//        if (!file.isEmpty()) {
+//            product.setProductImage(file.getOriginalFilename());
+//            try {
+//                File saveFile = new ClassPathResource("static/productImages").getFile();
+//                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+//                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+//        }
+//
+//        productRepository.save(product);
+//        return "redirect:/admin1/tables";
+//    }
+
     @PostMapping("/editProducts")
     public String editProduct(@ModelAttribute("editProduct") Product product, @RequestParam("file") MultipartFile file) {
+        // Kiểm tra nếu người dùng có upload file mới không
         if (!file.isEmpty()) {
+            // Nếu có, cập nhật file mới
             product.setProductImage(file.getOriginalFilename());
             try {
                 File saveFile = new ClassPathResource("static/productImages").getFile();
@@ -91,6 +127,13 @@ public class ProductController {
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
             } catch (Exception e) {
                 e.printStackTrace();
+            }
+        } else {
+            // Nếu không upload file mới, giữ lại tên file cũ
+            Product existingProduct = productRepository.findById(product.getProductId()).orElse(null);
+            if (existingProduct != null) {
+                product.setProductImage(existingProduct.getProductImage());
+                product.setEnteredDate(existingProduct.getEnteredDate());
             }
         }
 
@@ -100,13 +143,18 @@ public class ProductController {
 
 
 
-
     // delete category
     @GetMapping("/deleteProducts/{id}")
     public String delProduct(@PathVariable("id") Long id, Model model) {
         productRepository.deleteById(id);
         model.addAttribute("message", "Xóa sản phẩm thành công!");
         return "redirect:/admin1/tables";
+    }
+    @InitBinder
+    public void initBinder(WebDataBinder binder) {
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
+        sdf.setLenient(true);
+        binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
     }
 
 
