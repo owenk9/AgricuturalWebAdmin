@@ -36,6 +36,9 @@ public class ProductController {
         getData(model);
         return "admin/tables";
     }
+    public String hello (){
+        return "hello";
+    }
     @GetMapping("/search")
     public String findByProductName(@RequestParam(value = "search", required = false) String search, Model model) {
 
