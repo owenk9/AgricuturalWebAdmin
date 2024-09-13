@@ -23,4 +23,6 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     @Query(value = "SELECT * FROM products", nativeQuery = true)
     public List<Product> listAllProduct();
+
+    List<Product> findByProductName(String productName);
 }

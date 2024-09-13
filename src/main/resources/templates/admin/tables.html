@@ -142,6 +142,16 @@
 				<h4 class="card-title">Products</h4>
 				<a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
 				<a th:href="@{/admin1/products}" class="btn btn-primary mt-3" role="button" >New Product</a>
+                <div class="container mt-4">
+                    <form action="#" th:action="@{/admin1/search}" method="get" class="mb-4">
+                        <div class="input-group">
+                            <input type="text" name="search" class="form-control" placeholder="Search by product name" th:value="${param.search}">
+                            <div class="input-group-append">
+                                <button class="btn btn-primary" type="submit">Search</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
 				<div class="heading-elements">
 					<ul class="list-inline mb-0">
 						<li><a data-action="collapse"><i class="ft-minus"></i></a></li>

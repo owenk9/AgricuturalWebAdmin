@@ -7,8 +7,6 @@ import com.webbanhangnongsan.vn.webbanhangnongsan.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -23,9 +21,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @Controller
 @RequestMapping("/admin1")
@@ -38,6 +34,18 @@ public class ProductController {
     @GetMapping("/tables")
     public String Product(Model model) {
         getData(model);
+        return "admin/tables";
+    }
+    @GetMapping("/search")
+    public String findByProductName(@RequestParam(value = "search", required = false) String search, Model model) {
+
+        List<Product> showProducts;
+        if (search != null && !search.isEmpty()) {
+            showProducts = productRepository.findByProductName(search);
+        } else {
+            showProducts = productRepository.findAll();
+        }
+        model.addAttribute("showProducts", showProducts);
         return "admin/tables";
     }
 
