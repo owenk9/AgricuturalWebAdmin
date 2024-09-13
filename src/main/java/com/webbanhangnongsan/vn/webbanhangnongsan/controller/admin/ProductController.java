@@ -36,17 +36,16 @@ public class ProductController {
         getData(model);
         return "admin/tables";
     }
-    public String hello (){
-        return "hello";
-    }
     @GetMapping("/search")
     public String findByProductName(@RequestParam(value = "search", required = false) String search, Model model) {
 
         List<Product> showProducts;
         if (search != null && !search.isEmpty()) {
-            showProducts = productRepository.findByProductName(search);
+            showProducts = productRepository.findByProductNameContaining(search);
+            System.out.println(showProducts.stream().toList());
         } else {
             showProducts = productRepository.findAll();
+            System.out.println(showProducts.stream().toList());
         }
         model.addAttribute("showProducts", showProducts);
         return "admin/tables";
