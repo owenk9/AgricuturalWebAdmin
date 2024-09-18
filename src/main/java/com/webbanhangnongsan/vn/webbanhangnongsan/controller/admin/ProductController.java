@@ -4,9 +4,12 @@ import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Category;
 import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Product;
 import com.webbanhangnongsan.vn.webbanhangnongsan.repository.CategoryRepository;
 import com.webbanhangnongsan.vn.webbanhangnongsan.repository.ProductRepository;
+import com.webbanhangnongsan.vn.webbanhangnongsan.service.admin.ProductAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -31,24 +34,13 @@ public class ProductController {
 
     @Autowired
     CategoryRepository categoryRepository;
+
+    @Autowired
+    ProductAdminService productAdminService;
+
     @GetMapping("/tables")
     public String Product(Model model) {
         getData(model);
-        return "admin/tables";
-    }
-
-    @GetMapping("/search")
-    public String findByProductName(@RequestParam(value = "search", required = false) String search, Model model) {
-
-        List<Product> showProducts;
-        if (search != null && !search.isEmpty()) {
-            showProducts = productRepository.findByProductNameContaining(search);
-            System.out.println(showProducts.stream().toList());
-        } else {
-            showProducts = productRepository.findAll();
-            System.out.println(showProducts.stream().toList());
-        }
-        model.addAttribute("showProducts", showProducts);
         return "admin/tables";
     }
 
@@ -69,21 +61,26 @@ public class ProductController {
     public List<Category> showCategory(Model model) {
         List<Category> categoryList = categoryRepository.findAll();
         model.addAttribute("categoryList", categoryList);
-
         return categoryList;
     }
 
     @PostMapping("/addProducts")
     public String addNewProducts(@ModelAttribute("adminProduct") Product product, ModelMap model, @RequestParam("file") MultipartFile file){
+
         product.setProductImage(file.getOriginalFilename());
+
         Product p = productRepository.save(product);
 
         if(p != null){
             try {
                 File saveFile = new ClassPathResource("static/productImages").getFile();
-                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
-                System.out.println(path);
-                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+//                Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
+//                System.out.println(path);
+//                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+                Path staticPath = Paths.get("src/main/resources/static/productImages" + File.separator + file.getOriginalFilename());
+                Files.copy(file.getInputStream(), staticPath, StandardCopyOption.REPLACE_EXISTING);
+
             } catch (Exception e){
                 e.printStackTrace();
             }
@@ -93,9 +90,7 @@ public class ProductController {
             model.addAttribute("message", "Update failure");
             model.addAttribute("product", product);
         }
-
         return "redirect:/admin1/tables";
-
     }
 
 //     Hiển thị form chỉnh sửa sản phẩm
@@ -136,6 +131,9 @@ public class ProductController {
                 File saveFile = new ClassPathResource("static/productImages").getFile();
                 Path path = Paths.get(saveFile.getAbsolutePath() + File.separator + file.getOriginalFilename());
                 Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+                Path staticPath = Paths.get("src/main/resources/static/productImages" + File.separator + file.getOriginalFilename());
+                Files.copy(file.getInputStream(), staticPath, StandardCopyOption.REPLACE_EXISTING);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -154,7 +152,7 @@ public class ProductController {
 
 
 
-    // delete category
+    // delete product
     @GetMapping("/deleteProducts/{id}")
     public String delProduct(@PathVariable("id") Long id, Model model) {
         productRepository.deleteById(id);
