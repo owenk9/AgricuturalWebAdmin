@@ -109,10 +109,40 @@
         .table-wtf {
             display: flex;
             flex-direction: row;
-            gap: 12px  ;
+            gap: 12px;
             justify-content: space-between;
         }
 
+
+        /* New Product Button Styles */
+
+        .btn-rect {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-size: 14px;
+            text-align: center;
+            text-decoration: none;
+            color: #fff;
+        }
+
+        .btn-rect .btn-icon {
+            margin-right: 8px;
+        }
+
+        .btn-primary.btn-rect {
+            background-color: #007bff;
+            border-color: #007bff;
+        }
+
+        .btn-primary.btn-rect i {
+            font-size: 16px;
+        }
+
+        .btn-primary.btn-rect:hover {
+            opacity: 0.8;
+        }
 
     </style>
 
@@ -246,7 +276,10 @@
                                         </div>
                                     </div>
                                 </div>
-                                <a th:href="@{/admin1/products}" class="btn btn-primary" role="button" >New Product</a>
+<!--                                <a th:href="@{/admin1/products}" class="btn btn-primary" role="button" >New Product</a>-->
+                                <a th:href="@{/admin1/products}" class="btn btn-primary btn-rect">
+                                    <i class="fa fa-plus"></i> New Product
+                                </a>
                             </div>
 
 <!--                            <a th:href="@{/admin1/products}" class="btn btn-primary btn-icon" role="button">-->
