@@ -116,4 +116,40 @@ public class ProductService {
         int totalProducts = productList.size();
         return totalProducts;
     }
+
+    public List<Product> listProductSearch(String string, int page) {
+        // Lấy danh sách tất cả sản phẩm
+        List<Product> productList = productRepository.listAllProduct();
+
+        // Lọc sản phẩm chứa chuỗi 'string' trong tên sản phẩm, không phân biệt chữ hoa/thường
+        List<Product> filteredList = productList.stream()
+                .filter(product -> product.getProductName().toLowerCase().contains(string.toLowerCase()))
+                .toList();
+        // Xác định kích thước trang (số sản phẩm trên mỗi trang)
+        int pageSize = 1; // Bạn có thể thay đổi giá trị này theo nhu cầu của mình
+        int skip = (page - 1) * pageSize;
+
+        // Phân trang danh sách sản phẩm đã lọc
+        List<Product> paginatedList = filteredList.stream()
+                .skip(skip)
+                .limit(pageSize)
+                .toList();
+
+        return paginatedList;
+    }
+
+    public int numPageSearch(String string){
+        // Lấy danh sách tất cả sản phẩm
+        List<Product> productList = productRepository.listAllProduct();
+        List<Product> filteredList = productList.stream()
+                .filter(product -> product.getProductName().toLowerCase().contains(string.toLowerCase()))
+                .toList();
+        if(filteredList.size() == 0){
+            return 0;
+        }
+        int pageSize = 1;
+        int totalProducts = filteredList.size();
+
+        return (totalProducts + pageSize - 1) / pageSize;  // Phép chia lấy trần
+    }
 }

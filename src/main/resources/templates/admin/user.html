@@ -229,6 +229,7 @@
             <li class="active"><a href="/admin1/user"><i class="ft-credit-card"></i><span class="menu-title" data-i18n="">User</span></a>
             </li>
 
+
         </ul>
     </div><a class="btn btn-danger btn-block btn-glow btn-upgrade-pro mx-1" href="https://themeselection.com/products/chameleon-admin-modern-bootstrap-webapp-dashboard-html-template-ui-kit/" target="_blank">Download PRO!</a>
     <div class="navigation-background"></div>
@@ -239,7 +240,7 @@
         <div class="content-wrapper-before"></div>
         <div class="content-header row">
             <div class="content-header-left col-md-4 col-12 mb-2">
-                <h3 class="content-header-title">Category</h3>
+                <h3 class="content-header-title">User</h3>
             </div>
             <div class="content-header-right col-md-8 col-12">
                 <div class="breadcrumbs-top float-md-right">
@@ -247,7 +248,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Home</a>
                             </li>
-                            <li class="breadcrumb-item active">Category
+                            <li class="breadcrumb-item active">User
                             </li>
                         </ol>
                     </div>
@@ -260,12 +261,12 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Category</h4>
+                            <h4 class="card-title">User</h4>
                             <!--                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>-->
                             <div class="table-wtf mt-3">
                                 <div class="search-container">
                                     <div class="input-group">
-                                        <input type="text" id="searchInput" class="form-control" placeholder="Search category...">
+                                        <input type="text" id="searchInput" class="form-control" placeholder="Search user...">
                                         <div class="input-group-append">
                                         <span class="input-group-text">
                                             <i class="ft-search"></i>
@@ -274,8 +275,8 @@
                                     </div>
                                 </div>
                                 <!--                                <a th:href="@{/admin1/products}" class="btn btn-primary" role="button" >New Product</a>-->
-                                <a th:href="@{/admin1/categories}" class="btn btn-primary btn-rect">
-                                    <i class="fa fa-plus"></i> New Category
+                                <a th:href="@{/admin1/users}" class="btn btn-primary btn-rect">
+                                    <i class="fa fa-plus"></i> New User
                                 </a>
                             </div>
 
@@ -309,23 +310,25 @@
                                         <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Category Name</th>
-                                            <th>Category Image</th>
+                                            <th>User Name</th>
+                                            <th>Password</th>
+                                            <th>Email</th>
                                             <th></th>
                                         </tr>
                                         </thead>
-                                        <tbody id="categoryTableBody">
-                                        <tr th:each="item : ${showCategory}">
-                                            <th scope="row">[[${item.categoryId}]]</th>
-                                            <td>[[${item.categoryName}]]</td>
+                                        <tbody id="userTableBody">
+                                        <tr th:each="item : ${showUser}">
+                                            <th scope="row">[[${item.id}]]</th>
+                                            <td>[[${item.name}]]</td>
+                                            <td>[[${item.password}]]</td>
+                                            <td>[[${item.email}]]</td>
+
+
                                             <td>
-                                                <img th:src="@{'/categoryImages/'+${item.categoryImage}}" width="80px" alt="category" />
-                                            </td>
-                                            <td>
-                                                <a th:href="@{/admin1/editCategory/{categoryId}(categoryId=${item.categoryId})}" class="btn btn-success btn-icon">
+                                                <a th:href="@{/admin1/editUser/{id}(id=${item.id})}" class="btn btn-success btn-icon">
                                                     <i class="fa fa-edit"></i>
                                                 </a>
-                                                <a th:href="@{deleteCategory/{categoryId}(categoryId=${item.categoryId})}"
+                                                <a th:href="@{deleteUser/{id}(id=${item.id})}"
                                                    class="btn btn-danger btn-icon"
                                                    onclick="return confirmDelete();">
                                                     <i class="fa fa-trash"></i>

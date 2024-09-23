@@ -4,6 +4,7 @@ import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Category;
 import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Product;
 import com.webbanhangnongsan.vn.webbanhangnongsan.repository.CategoryRepository;
 import com.webbanhangnongsan.vn.webbanhangnongsan.repository.ProductRepository;
+import com.webbanhangnongsan.vn.webbanhangnongsan.service.ProductService;
 import com.webbanhangnongsan.vn.webbanhangnongsan.service.admin.ProductAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
@@ -16,6 +17,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.nio.file.Files;
@@ -37,10 +39,15 @@ public class ProductController {
 
     @Autowired
     ProductAdminService productAdminService;
+    @Autowired
+    private ProductService productService;
 
     @GetMapping("/tables")
     public String Product(Model model) {
         getData(model);
+        model.addAttribute("totalProducts", productRepository.count());
+        long count = productRepository.count();
+        System.out.println("Total products: " + count);
         return "admin/tables";
     }
 
@@ -151,7 +158,6 @@ public class ProductController {
     }
 
 
-
     // delete product
     @GetMapping("/deleteProducts/{id}")
     public String delProduct(@PathVariable("id") Long id, Model model) {
@@ -159,6 +165,7 @@ public class ProductController {
         model.addAttribute("message", "Xóa sản phẩm thành công!");
         return "redirect:/admin1/tables";
     }
+
     @InitBinder
     public void initBinder(WebDataBinder binder) {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
@@ -167,5 +174,26 @@ public class ProductController {
     }
 
 
+    // search products
+    @GetMapping("/searchProducts")
+    public String searchProducts(@RequestParam("search") String search,
+                                 @RequestParam("page") int page,
+                                 Model model){
+        List<Product> productList = productService.listProductSearch(search, page);
+        int numPages = productService.numPageSearch(search);
+        System.out.println("numpage: " + numPages);
+        model.addAttribute("productList", productList);
+        model.addAttribute("page", page);
+        model.addAttribute("search", search);
+        model.addAttribute("numPages", numPages);
+        return "admin/tables";
+    }
+
+    @PostMapping("/searchProducts")
+    public String handleSearch(@RequestParam("search") String search, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("search", search);
+        redirectAttributes.addAttribute("page", 1); // Đặt trang mặc định là 1
+        return "redirect:/searchProducts"; // Chuyển hướng đến phương thức GET searchProducts
+    }
 
 }

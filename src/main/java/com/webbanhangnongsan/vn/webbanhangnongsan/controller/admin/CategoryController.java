@@ -36,7 +36,7 @@ public class CategoryController {
     }
 
     @GetMapping("/categories")
-    public String category(Model model) {
+    public String categories(Model model) {
         Category category = new Category();
         model.addAttribute("adminCategory", category);
 
