@@ -64,8 +64,6 @@ public class UserController {
                 model.addAttribute("message", "Không tìm thấy người dùng");
                 return "redirect:/admin1/user";
             }
-
-            // Cập nhật thông tin người dùng
             existingUser.setName(user.getName());
             existingUser.setPassword(user.getPassword());
             existingUser.setEmail(user.getEmail());

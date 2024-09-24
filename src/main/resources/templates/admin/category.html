@@ -319,7 +319,8 @@
                                             <th scope="row">[[${item.categoryId}]]</th>
                                             <td>[[${item.categoryName}]]</td>
                                             <td>
-                                                <img th:src="@{'/categoryImages/'+${item.categoryImage}}" width="80px" alt="category" />
+<!--                                                <img th:src="@{'/categoryImages/'+${item.categoryImage}}" width="80px" alt="category" />-->
+                                                <img th:src="@{'/loadImage?imageName='+${item.categoryImage}}" width="80px" alt="category" />
                                             </td>
                                             <td>
                                                 <a th:href="@{/admin1/editCategory/{categoryId}(categoryId=${item.categoryId})}" class="btn btn-success btn-icon">
