@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class TestController {
     @GetMapping(value = "/test-login")
     public String testLogin(Model model) {
-        return "web/login";
+        return "web/login-test";
     }
 
     @GetMapping(value = "/test-register")
     public String testRegister(Model model) {
-        return "web/register";
+        return "web/register-test";
     }
 
 
@@ -35,6 +35,11 @@ public class TestController {
     @GetMapping(value = "/test-detail")
     public String detailTest(Model model) {
         return "web/shop-details";
+    }
+
+    @GetMapping(value = "/test-profile")
+    public String profileTest(Model model) {
+        return "web/profile";
     }
 
 }

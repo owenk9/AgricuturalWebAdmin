@@ -21,4 +21,7 @@ public interface ShoppingCartService {
     void add(CartItem item);
 
     void remove(Product product);
+
+    CartItem getCartItemById(Long cartItemId);
+    void update(CartItem cartItem);
 }

@@ -15,7 +15,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,13 +41,13 @@ public class ShopController extends CommonController {
     @GetMapping(value = "/products")
     public String shop(HttpServletRequest request, Model model, User user) {
         commonDataService.commonData(model, user);
-        List<Product> productList = productService.listProductFiltered(0, 0, 540,1);
-        int productFound = productService.productFound(0, 0, 540);
+        List<Product> productList = productService.listProductFiltered(0, 0, 100000,1);
+        int productFound = productService.productFound(0, 0, 100000);
         List<Category> categories = categoryRepository.findAll();
-        int numPages = productService.numPage(0, 0, 540);
+        int numPages = productService.numPage(0, 0, 100000);
         model.addAttribute("productList", productList);
         model.addAttribute("minAmount", 0);
-        model.addAttribute("maxAmount", 540);
+        model.addAttribute("maxAmount", 100000);
         model.addAttribute("categoryId", 0);
         model.addAttribute("page", 1);
         model.addAttribute("numPages", numPages);
@@ -97,6 +99,28 @@ public class ShopController extends CommonController {
 
         return "web/shop-grid"; // Trả về trang kết quả lọc
     }
+
+    @GetMapping("searchProducts")
+    public String searchProducts(@RequestParam("search") String search,
+                                 @RequestParam("page") int page,
+                                Model model) {
+        List<Product> productList = productService.listProductSearch(search,page);
+        int numPages = productService.numPageSearch(search);
+        System.out.println("numPages: " + numPages);
+        model.addAttribute("productList", productList);
+        model.addAttribute("page", page);
+        model.addAttribute("search", search);
+        model.addAttribute("numPages", numPages);
+        return "web/shop-search"; // Trả về trang kết quả lọc
+    }
+
+    @PostMapping("/searchProducts")
+    public String handleSearch(@RequestParam("search") String search, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("search", search);
+        redirectAttributes.addAttribute("page", 1); // Đặt trang mặc định là 1
+        return "redirect:/searchProducts"; // Chuyển hướng đến phương thức GET searchProducts
+    }
+
 
 
 }

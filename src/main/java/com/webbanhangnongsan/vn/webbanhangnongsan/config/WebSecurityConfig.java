@@ -36,8 +36,6 @@ public class WebSecurityConfig {
         return config.getAuthenticationManager();
     }
 
-
-
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.csrf(csrf -> csrf.disable()); // Disable CSRF
@@ -51,7 +49,7 @@ public class WebSecurityConfig {
                 .formLogin(form -> form
                         .loginProcessingUrl("/doLogin")
                         .loginPage("/login")
-                        .defaultSuccessUrl("/?login_success", true)
+                        .successHandler(new SuccessHandler())  // Áp dụng SuccessHandler
                         .failureUrl("/login?error=true")
                         .permitAll()
                 )
@@ -69,3 +67,4 @@ public class WebSecurityConfig {
         return http.build();
     }
 }
+

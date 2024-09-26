@@ -58,4 +58,18 @@ public class ShoppingCartServiceImpl implements ShoppingCartService {
     public void remove(Product product) {
 
     }
+
+    @Override
+    public CartItem getCartItemById(Long cartItemId) {
+        return map.get(cartItemId);
+    }
+
+    @Override
+    public void update(CartItem cartItem) {
+        CartItem existingItem = map.get(cartItem.getId());
+        if (existingItem != null) {
+            existingItem.setQuantity(cartItem.getQuantity());
+            existingItem.setTotalPrice(cartItem.getUnitPrice() * cartItem.getQuantity());
+        }
+    }
 }

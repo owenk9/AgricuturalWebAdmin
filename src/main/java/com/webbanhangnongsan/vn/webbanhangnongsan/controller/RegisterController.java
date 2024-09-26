@@ -45,7 +45,7 @@ public class RegisterController {
     @GetMapping("/register")
     public ModelAndView registerForm(ModelMap model) {
         model.addAttribute("user", new User());
-        return new ModelAndView("web/register", model);
+        return new ModelAndView("web/register-test", model);
     }
 
     @PostMapping("/register")
@@ -68,7 +68,7 @@ public class RegisterController {
         model.addAttribute("user", dto);
         model.addAttribute("message", "Mã xác thực OTP đã được gửi tới Email : " + dto.getEmail() + " , hãy kiểm tra Email của bạn!");
 
-        return "/web/confirmOtpRegister";
+        return "web/confirmOtpRegister";
     }
 
     public boolean checkEmail(String email) {
