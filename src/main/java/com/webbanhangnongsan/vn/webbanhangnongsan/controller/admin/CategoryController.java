@@ -4,6 +4,7 @@ package com.webbanhangnongsan.vn.webbanhangnongsan.controller.admin;
 import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Category;
 import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Product;
 import com.webbanhangnongsan.vn.webbanhangnongsan.repository.CategoryRepository;
+import com.webbanhangnongsan.vn.webbanhangnongsan.service.admin.CategoryAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
@@ -29,10 +30,13 @@ public class CategoryController {
     private String pathUploadImage;
     @Autowired
     CategoryRepository categoryRepository;
+    @Autowired
+    CategoryAdminService categoryAdminService;
 
     @GetMapping("/category")
     public String Category(Model model) {
         getData(model);
+        paginatedCategories(model, 1);
         return "admin/category";
     }
     public void getData(Model model){
@@ -133,5 +137,15 @@ public class CategoryController {
         categoryRepository.deleteById(id);
         model.addAttribute("message", "Xóa loại sản phẩm thành công!");
         return "redirect:/admin1/category";
+    }
+
+    @GetMapping("/paginationCategories")
+    public String paginatedCategories(Model model, @RequestParam("currentPage") int currentPage) {
+        List<Category> categoryList = categoryAdminService.paginatedCategories(currentPage);
+        int totalPage = categoryAdminService.totalPage();
+        model.addAttribute("paginatedCategories", categoryList);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPage);
+        return "admin/category";
     }
 }

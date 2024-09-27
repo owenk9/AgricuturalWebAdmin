@@ -36,22 +36,18 @@
     public class ProductController {
         @Value("${upload.path}")
         private String pathUploadImage;
-
         @Autowired
         ProductRepository productRepository;
-    
         @Autowired
         CategoryRepository categoryRepository;
-    
         @Autowired
         ProductAdminService productAdminService;
         @Autowired
         private ProductService productService;
-    
         @GetMapping("/tables")
         public String Product(Model model) {
             getData(model);
-            model.addAttribute("totalProducts", productRepository.count());
+            paginatedProducts(model, 1);
             return "admin/tables";
         }
     
@@ -149,9 +145,6 @@
 
             return "redirect:/admin1/tables";
         }
-
-
-
         // delete product
         @GetMapping("/deleteProducts/{id}")
         public String delProduct(@PathVariable("id") Long id, Model model) {
@@ -159,15 +152,12 @@
             model.addAttribute("message", "Xóa sản phẩm thành công!");
             return "redirect:/admin1/tables";
         }
-    
         @InitBinder
         public void initBinder(WebDataBinder binder) {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm");
             sdf.setLenient(true);
             binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
         }
-    
-    
         // search products
         @GetMapping("/searchProducts")
         public String searchProducts(@RequestParam("search") String search,
@@ -182,12 +172,19 @@
             model.addAttribute("numPages", numPages);
             return "admin/tables";
         }
-    
         @PostMapping("/searchProducts")
         public String handleSearch(@RequestParam("search") String search, RedirectAttributes redirectAttributes) {
             redirectAttributes.addAttribute("search", search);
             redirectAttributes.addAttribute("page", 1); // Đặt trang mặc định là 1
             return "redirect:/searchProducts"; // Chuyển hướng đến phương thức GET searchProducts
         }
-    
+        @GetMapping("/paginationProducts")
+        public String paginatedProducts(Model model, @RequestParam("currentPage") int currentPage) {
+            List<Product> productList = productAdminService.paginatedProducts(currentPage);
+            int totalPage = productAdminService.totalPage();
+            model.addAttribute("paginatedProducts", productList);
+            model.addAttribute("currentPage", currentPage);
+            model.addAttribute("totalPages", totalPage);
+            return "admin/tables";
+        }
     }

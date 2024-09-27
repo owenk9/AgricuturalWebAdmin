@@ -43,6 +43,7 @@ public class WebSecurityConfig {
         http.csrf(csrf -> csrf.disable()); // Disable CSRF
 
         http.authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/admin/theme-assets/**").permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
                         .requestMatchers("/checkout").hasRole("USER")
                         .requestMatchers("/**").permitAll()

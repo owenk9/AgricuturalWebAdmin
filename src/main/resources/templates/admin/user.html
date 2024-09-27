@@ -229,7 +229,7 @@
 <!--            <li class="active"><a href="/admin1/user"><i class="ft-credit-card"></i><span class="menu-title" data-i18n="">User</span></a>-->
 <!--            </li>-->
             <li class="nav-item has-sub">
-                <a href="#"><i class="ft-layers"></i><span class="menu-title" data-i18n="">Hệ thống quản lí</span></a>
+                <a href="#"><i class="ft-layers"></i><span class="menu-title" data-i18n="">Management</span></a>
                 <ul class="menu-content">
                     <li><a class="menu-item" href="/admin1/tables"><i class="ft-credit-card"></i> Products</a></li>
                     <li><a class="menu-item" href="/admin1/category"><i class="ft-credit-card"></i> Category</a></li>
@@ -325,7 +325,7 @@
                                         </tr>
                                         </thead>
                                         <tbody id="userTableBody">
-                                        <tr th:each="item : ${showUser}">
+                                        <tr th:each="item : ${paginatedUsers}">
                                             <th scope="row">[[${item.id}]]</th>
                                             <td>[[${item.name}]]</td>
                                             <td>[[${item.password}]]</td>
@@ -351,19 +351,22 @@
                             <!--Pagination-->
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Previous">
-                                            <span aria-hidden="true">&laquo;</span>
+<!--                                    <li class="page-item">-->
+<!--                                        <a class="page-link" href="#" aria-label="Previous">-->
+<!--                                            <span aria-hidden="true">&laquo;</span>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
+                                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
+                                        <a class="page-link"
+                                           th:text="${pageNumber}"
+                                           th:href="@{/admin1/paginationUsers(currentPage=${pageNumber})}">
                                         </a>
                                     </li>
-                                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                                    <li class="page-item">
-                                        <a class="page-link" href="#" aria-label="Next">
-                                            <span aria-hidden="true">&raquo;</span>
-                                        </a>
-                                    </li>
+<!--                                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">-->
+<!--                                        <a class="page-link" th:href="@{/admin1/paginationUsers(currentPage=${currentPage + 1})}" aria-label="Next">-->
+<!--                                            <span aria-hidden="true">&raquo;</span>-->
+<!--                                        </a>-->
+<!--                                    </li>-->
                                 </ul>
                             </nav>
                             <!--End Pagination-->

@@ -1,7 +1,9 @@
 package com.webbanhangnongsan.vn.webbanhangnongsan.controller.admin;
 
+import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Product;
 import com.webbanhangnongsan.vn.webbanhangnongsan.entity.User;
 import com.webbanhangnongsan.vn.webbanhangnongsan.repository.UserRepository;
+import com.webbanhangnongsan.vn.webbanhangnongsan.service.admin.UserAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,10 +16,13 @@ import java.util.List;
 public class UserController {
     @Autowired
     UserRepository userRepository;
+    @Autowired
+    UserAdminService userAdminService;
 
     @GetMapping("/user")
     public String User(Model model) {
         getData(model);
+        paginatedUsers(model, 1);
         return "admin/user";
     }
 
@@ -84,5 +89,15 @@ public class UserController {
             model.addAttribute("message", "Xóa người dùng thất bại: " + e.getMessage());
         }
         return "redirect:/admin1/user";
+    }
+
+    @GetMapping("/paginationUsers")
+    public String paginatedUsers(Model model, @RequestParam("currentPage") int currentPage) {
+        List<User> userList = userAdminService.paginatedUsers(currentPage);
+        int totalPage = userAdminService.totalPage();
+        model.addAttribute("paginatedUsers", userList);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPage);
+        return "admin/user";
     }
 }
