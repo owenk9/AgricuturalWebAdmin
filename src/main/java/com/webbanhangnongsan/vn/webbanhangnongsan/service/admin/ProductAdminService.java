@@ -11,6 +11,8 @@ import org.springframework.stereotype.Service;
 import javax.print.attribute.standard.PrinterURI;
 import java.util.List;
 
+import static java.util.Locale.filter;
+
 @Service
 public class ProductAdminService {
     @Autowired
@@ -18,17 +20,39 @@ public class ProductAdminService {
 
     private final static int pageSize = 1;
 
-    public List<Product> paginatedProducts(int currentPage) {
+    public List<Product> paginatedProducts(String search, int currentPage) {
         int offSet = (currentPage - 1) * pageSize;
-        return productRepository.findAll()
+        List<Product> searchProductList = productRepository.findAll()
                 .stream()
-                .skip(offSet)
-                .limit(pageSize)
+                .filter(product -> product.getProductName().toLowerCase().contains(search.toLowerCase()))
                 .toList();
+        if (searchProductList.isEmpty()) {
+            return productRepository.findAll()
+                    .stream()
+                    .skip(offSet)
+                    .limit(pageSize)
+                    .toList();
+        }
+        else {
+            return searchProductList.stream()
+                    .skip(offSet)
+                    .limit(pageSize)
+                    .toList();
+        }
     }
 
-    public int totalPage() {
-        long productQuantity = productRepository.count();
-        return (int) Math.ceil((double) productQuantity / pageSize);
+    public int totalPage(String search) {
+        List<Product> searchProductList = productRepository.findAll()
+                .stream()
+                .filter(product -> product.getProductName().toLowerCase().contains(search.toLowerCase()))
+                .toList();
+        if (searchProductList.isEmpty()) {
+            long productQuantity = productRepository.count();
+            return (int) Math.ceil((double) productQuantity / pageSize);
+        }
+        else {
+            int productQuantity = searchProductList.size();
+            return (int) Math.ceil((double) productQuantity / pageSize);
+        }
     }
 }

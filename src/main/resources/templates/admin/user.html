@@ -272,17 +272,23 @@
                             <h4 class="card-title">User</h4>
                             <!--                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>-->
                             <div class="table-wtf mt-3">
-                                <div class="search-container">
-                                    <div class="input-group">
-                                        <input type="text" id="searchInput" class="form-control" placeholder="Search user...">
-                                        <div class="input-group-append">
-                                        <span class="input-group-text">
-                                            <i class="ft-search"></i>
-                                        </span>
-                                        </div>
-                                    </div>
-                                </div>
+<!--                                <div class="search-container">-->
+<!--                                    <div class="input-group">-->
+<!--                                        <input type="text" id="searchInput" class="form-control" placeholder="Search user...">-->
+<!--                                        <div class="input-group-append">-->
+<!--                                        <span class="input-group-text">-->
+<!--                                            <i class="ft-search"></i>-->
+<!--                                        </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
                                 <!--                                <a th:href="@{/admin1/products}" class="btn btn-primary" role="button" >New Product</a>-->
+
+                                <form th:action="@{/admin1/paginationUsers}" th:method="post">
+                                    <input type="text" name="search" placeholder="What do you need?" th:value="${search}">
+                                    <button type="submit" class="site-btn">SEARCH</button>
+                                </form>
+
                                 <a th:href="@{/admin1/users}" class="btn btn-primary btn-rect">
                                     <i class="fa fa-plus"></i> New User
                                 </a>
@@ -359,7 +365,7 @@
                                     <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
                                         <a class="page-link"
                                            th:text="${pageNumber}"
-                                           th:href="@{/admin1/paginationUsers(currentPage=${pageNumber})}">
+                                           th:href="@{/admin1/paginationUsers(currentPage=${pageNumber}, search=${search})}">
                                         </a>
                                     </li>
 <!--                                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">-->

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -22,7 +23,7 @@ public class UserController {
     @GetMapping("/user")
     public String User(Model model) {
         getData(model);
-        paginatedUsers(model, 1);
+        paginatedUsers(model, 1, "");
         return "admin/user";
     }
 
@@ -91,13 +92,34 @@ public class UserController {
         return "redirect:/admin1/user";
     }
 
+//    @GetMapping("/paginationUsers")
+//    public String paginatedUsers(Model model, @RequestParam("currentPage") int currentPage) {
+//        List<User> userList = userAdminService.paginatedUsers(currentPage);
+//        int totalPage = userAdminService.totalPage();
+//        model.addAttribute("paginatedUsers", userList);
+//        model.addAttribute("currentPage", currentPage);
+//        model.addAttribute("totalPages", totalPage);
+//        return "admin/user";
+//    }
+
+    @PostMapping("/paginationUsers")
+    public String handleSearch(@RequestParam("search") String search, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("search", search);
+        redirectAttributes.addAttribute("currentPage", 1); // Đặt trang mặc định là 1
+        return "redirect:/admin1/paginationUsers"; // Chuyển hướng đến phương thức GET searchProducts
+    }
     @GetMapping("/paginationUsers")
-    public String paginatedUsers(Model model, @RequestParam("currentPage") int currentPage) {
-        List<User> userList = userAdminService.paginatedUsers(currentPage);
-        int totalPage = userAdminService.totalPage();
+    public String paginatedUsers(Model model,
+                                    @RequestParam("currentPage") int currentPage,
+                                    @RequestParam("search") String search) {
+        List<User> userList = userAdminService.paginatedUsers(search, currentPage);
+        int totalPage = userAdminService.totalPage(search);
+        model.addAttribute("search", search);
         model.addAttribute("paginatedUsers", userList);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", totalPage);
         return "admin/user";
     }
+
+
 }

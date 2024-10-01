@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -36,7 +37,7 @@ public class CategoryController {
     @GetMapping("/category")
     public String Category(Model model) {
         getData(model);
-        paginatedCategories(model, 1);
+        paginatedCategories(model, 1, "");
         return "admin/category";
     }
     public void getData(Model model){
@@ -139,10 +140,30 @@ public class CategoryController {
         return "redirect:/admin1/category";
     }
 
+//    @GetMapping("/paginationCategories")
+//    public String paginatedCategories(Model model, @RequestParam("currentPage") int currentPage) {
+//        List<Category> categoryList = categoryAdminService.paginatedCategories(currentPage);
+//        int totalPage = categoryAdminService.totalPage();
+//        model.addAttribute("paginatedCategories", categoryList);
+//        model.addAttribute("currentPage", currentPage);
+//        model.addAttribute("totalPages", totalPage);
+//        return "admin/category";
+//    }
+
+    @PostMapping("/paginationCategories")
+    public String handleSearch(@RequestParam("search") String search, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("search", search);
+        redirectAttributes.addAttribute("currentPage", 1); // Đặt trang mặc định là 1
+        return "redirect:/admin1/paginationCategories"; // Chuyển hướng đến phương thức GET searchProducts
+    }
+
     @GetMapping("/paginationCategories")
-    public String paginatedCategories(Model model, @RequestParam("currentPage") int currentPage) {
-        List<Category> categoryList = categoryAdminService.paginatedCategories(currentPage);
-        int totalPage = categoryAdminService.totalPage();
+    public String paginatedCategories(Model model,
+                                    @RequestParam("currentPage") int currentPage,
+                                    @RequestParam("search") String search) {
+        List<Category> categoryList = categoryAdminService.paginatedCategories(search, currentPage);
+        int totalPage = categoryAdminService.totalPage(search);
+        model.addAttribute("search", search);
         model.addAttribute("paginatedCategories", categoryList);
         model.addAttribute("currentPage", currentPage);
         model.addAttribute("totalPages", totalPage);

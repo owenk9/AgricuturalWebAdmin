@@ -54,7 +54,6 @@ public class ProductService {
         return paginatedList;
     }
 
-
     public int numPage(long categoryId,int minAmount,int maxAmount){
         List<Product> productList = productRepository.listAllProduct();
         if(categoryId != 0){
@@ -125,6 +124,7 @@ public class ProductService {
         List<Product> filteredList = productList.stream()
                 .filter(product -> product.getProductName().toLowerCase().contains(string.toLowerCase()))
                 .toList();
+
         // Xác định kích thước trang (số sản phẩm trên mỗi trang)
         int pageSize = 1; // Bạn có thể thay đổi giá trị này theo nhu cầu của mình
         int skip = (page - 1) * pageSize;

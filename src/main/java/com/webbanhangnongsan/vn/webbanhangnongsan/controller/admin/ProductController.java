@@ -47,7 +47,7 @@
         @GetMapping("/tables")
         public String Product(Model model) {
             getData(model);
-            paginatedProducts(model, 1);
+            paginatedProducts(model, 1, "");
             return "admin/tables";
         }
     
@@ -159,29 +159,32 @@
             binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
         }
         // search products
-        @GetMapping("/searchProducts")
-        public String searchProducts(@RequestParam("search") String search,
-                                     @RequestParam("page") int page,
-                                     Model model){
-            List<Product> productList = productService.listProductSearch(search, page);
-            int numPages = productService.numPageSearch(search);
-            System.out.println("numpage: " + numPages);
-            model.addAttribute("productList", productList);
-            model.addAttribute("page", page);
-            model.addAttribute("search", search);
-            model.addAttribute("numPages", numPages);
-            return "admin/tables";
-        }
-        @PostMapping("/searchProducts")
+//        @GetMapping("/searchProducts")
+//        public String searchProducts(@RequestParam("search") String search,
+//                                     @RequestParam("page") int page,
+//                                     Model model){
+//            List<Product> productList = productService.listProductSearch(search, page);
+//            int totalPages = productService.numPageSearch(search);
+//            System.out.println("totalPages: " + totalPages);
+//            model.addAttribute("productSearchList", productList);
+//            model.addAttribute("page", page);
+//            model.addAttribute("search", search);
+//            model.addAttribute("totalPages", totalPages);
+//            return "admin/tables";
+//        }
+        @PostMapping("/paginationProducts")
         public String handleSearch(@RequestParam("search") String search, RedirectAttributes redirectAttributes) {
             redirectAttributes.addAttribute("search", search);
-            redirectAttributes.addAttribute("page", 1); // Đặt trang mặc định là 1
-            return "redirect:/searchProducts"; // Chuyển hướng đến phương thức GET searchProducts
+            redirectAttributes.addAttribute("currentPage", 1); // Đặt trang mặc định là 1
+            return "redirect:/admin1/paginationProducts"; // Chuyển hướng đến phương thức GET searchProducts
         }
         @GetMapping("/paginationProducts")
-        public String paginatedProducts(Model model, @RequestParam("currentPage") int currentPage) {
-            List<Product> productList = productAdminService.paginatedProducts(currentPage);
-            int totalPage = productAdminService.totalPage();
+        public String paginatedProducts(Model model,
+                                        @RequestParam("currentPage") int currentPage,
+                                        @RequestParam("search") String search) {
+            List<Product> productList = productAdminService.paginatedProducts(search, currentPage);
+            int totalPage = productAdminService.totalPage(search);
+            model.addAttribute("search", search);
             model.addAttribute("paginatedProducts", productList);
             model.addAttribute("currentPage", currentPage);
             model.addAttribute("totalPages", totalPage);

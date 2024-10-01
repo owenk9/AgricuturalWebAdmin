@@ -271,17 +271,26 @@
                             <h4 class="card-title">Products</h4>
 <!--                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>-->
                             <div class="table-wtf mt-3">
-                                <div class="search-container">
-                                    <div class="input-group">
-                                        <input type="text" id="searchInput" class="form-control" placeholder="Search products...">
-                                        <div class="input-group-append">
-                                        <span class="input-group-text">
-                                            <i class="ft-search"></i>
-                                        </span>
-                                        </div>
-                                    </div>
-                                </div>
-<!--                                <a th:href="@{/admin1/products}" class="btn btn-primary" role="button" >New Product</a>-->
+<!--                                <div class="search-container">-->
+<!--                                    <div class="input-group" >-->
+<!--                                        <input th:href="@{/admin1/searchProducts(search=${search})}"-->
+<!--                                               type="text"-->
+<!--                                               id="searchInput"-->
+<!--                                               class="form-control"-->
+<!--                                               th:method="post" placeholder="Search products..."-->
+<!--                                               th:value="${search}">-->
+<!--                                        <div class="input-group-append">-->
+<!--                                        <span class="input-group-text">-->
+<!--                                            <i class="ft-search"></i>-->
+<!--                                        </span>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+                                <form th:action="@{/admin1/paginationProducts}" th:method="post">
+                                    <input type="text" name="search" placeholder="What do you need?" th:value="${search}">
+                                    <button type="submit" class="site-btn">SEARCH</button>
+                                </form>
+
                                 <a th:href="@{/admin1/products}" class="btn btn-primary btn-rect">
                                     <i class="fa fa-plus"></i> New Product
                                 </a>
@@ -367,7 +376,7 @@
                                     <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
                                         <a class="page-link"
                                            th:text="${pageNumber}"
-                                           th:href="@{/admin1/paginationProducts(currentPage=${pageNumber})}">
+                                           th:href="@{/admin1/paginationProducts(currentPage=${pageNumber}, search=${search})}">
                                         </a>
                                     </li>
 <!--                                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">-->
@@ -411,33 +420,33 @@
 <!-- END PAGE LEVEL JS-->
 
 <!-- Add this script for live search functionality -->
-<script>
-    function searchProducts() {
-        var input, filter, table, tr, td, i, txtValue;
-        input = document.getElementById("searchInput");
-        filter = input.value.toUpperCase();
-        table = document.getElementById("productTableBody");
-        tr = table.getElementsByTagName("tr");
+<!--<script>-->
+<!--    function searchProducts() {-->
+<!--        var input, filter, table, tr, td, i, txtValue;-->
+<!--        input = document.getElementById("searchInput");-->
+<!--        filter = input.value.toUpperCase();-->
+<!--        table = document.getElementById("productTableBody");-->
+<!--        tr = table.getElementsByTagName("tr");-->
 
-        for (i = 0; i < tr.length; i++) {
-            td = tr[i].getElementsByTagName("td")[0]; // Index 0 corresponds to the Product Name column
-            if (td) {
-                txtValue = td.textContent || td.innerText;
-                if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                    tr[i].style.display = "";
-                } else {
-                    tr[i].style.display = "none";
-                }
-            }
-        }
-    }
+<!--        for (i = 0; i < tr.length; i++) {-->
+<!--            td = tr[i].getElementsByTagName("td")[0]; // Index 0 corresponds to the Product Name column-->
+<!--            if (td) {-->
+<!--                txtValue = td.textContent || td.innerText;-->
+<!--                if (txtValue.toUpperCase().indexOf(filter) > -1) {-->
+<!--                    tr[i].style.display = "";-->
+<!--                } else {-->
+<!--                    tr[i].style.display = "none";-->
+<!--                }-->
+<!--            }-->
+<!--        }-->
+<!--    }-->
 
-    // Add event listener for real-time search
-    document.getElementById("searchInput").addEventListener("input", searchProducts);
+<!--    // Add event listener for real-time search-->
+<!--    document.getElementById("searchInput").addEventListener("input", searchProducts);-->
 
-    function confirmDelete() {
-        return confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");
-    }
-</script>
+<!--    function confirmDelete() {-->
+<!--        return confirm("Bạn có chắc chắn muốn xóa sản phẩm này không?");-->
+<!--    }-->
+<!--</script>-->
 </body>
 </html>
