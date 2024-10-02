@@ -2,8 +2,10 @@
     
     import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Category;
     import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Product;
+    import com.webbanhangnongsan.vn.webbanhangnongsan.entity.User;
     import com.webbanhangnongsan.vn.webbanhangnongsan.repository.CategoryRepository;
     import com.webbanhangnongsan.vn.webbanhangnongsan.repository.ProductRepository;
+    import com.webbanhangnongsan.vn.webbanhangnongsan.repository.UserRepository;
     import com.webbanhangnongsan.vn.webbanhangnongsan.service.ProductService;
     import com.webbanhangnongsan.vn.webbanhangnongsan.service.admin.ProductAdminService;
     import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +29,7 @@
     import java.nio.file.Path;
     import java.nio.file.Paths;
     import java.nio.file.StandardCopyOption;
+    import java.security.Principal;
     import java.text.SimpleDateFormat;
     import java.util.Date;
     import java.util.List;
@@ -44,6 +47,21 @@
         ProductAdminService productAdminService;
         @Autowired
         private ProductService productService;
+        @Autowired
+        private UserRepository userRepository;
+
+        @ModelAttribute(value = "user")
+        public User user(Model model, Principal principal, User user) {
+
+            if (principal != null) {
+                model.addAttribute("user", new User());
+                user = userRepository.findByEmail(principal.getName());
+                model.addAttribute("user", user);
+            }
+
+            return user;
+        }
+
         @GetMapping("/tables")
         public String Product(Model model) {
             getData(model);

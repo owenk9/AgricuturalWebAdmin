@@ -3,7 +3,9 @@ package com.webbanhangnongsan.vn.webbanhangnongsan.controller.admin;
 
 import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Category;
 import com.webbanhangnongsan.vn.webbanhangnongsan.entity.Product;
+import com.webbanhangnongsan.vn.webbanhangnongsan.entity.User;
 import com.webbanhangnongsan.vn.webbanhangnongsan.repository.CategoryRepository;
+import com.webbanhangnongsan.vn.webbanhangnongsan.repository.UserRepository;
 import com.webbanhangnongsan.vn.webbanhangnongsan.service.admin.CategoryAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,6 +24,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.Principal;
 import java.util.List;
 
 @Controller
@@ -33,6 +36,21 @@ public class CategoryController {
     CategoryRepository categoryRepository;
     @Autowired
     CategoryAdminService categoryAdminService;
+    @Autowired
+    UserRepository userRepository;
+
+
+    @ModelAttribute(value = "user")
+    public User user(Model model, Principal principal, User user) {
+
+        if (principal != null) {
+            model.addAttribute("user", new User());
+            user = userRepository.findByEmail(principal.getName());
+            model.addAttribute("user", user);
+        }
+
+        return user;
+    }
 
     @GetMapping("/category")
     public String Category(Model model) {

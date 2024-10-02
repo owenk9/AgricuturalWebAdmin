@@ -223,12 +223,12 @@
             </li>
             <li class=" nav-item"><a href="charts.html"><i class="ft-pie-chart"></i><span class="menu-title" data-i18n="">Charts</span></a>
             </li>
-<!--            <li class="active"><a href="/admin1/category"><i class="ft-credit-card"></i><span class="menu-title" data-i18n="">Category</span></a>-->
-<!--            </li>-->
-<!--            <li class="active"><a href="/admin1/tables"><i class="ft-credit-card"></i><span class="menu-title" data-i18n="">Products</span></a>-->
-<!--            </li>-->
-<!--            <li class="active"><a href="/admin1/user"><i class="ft-credit-card"></i><span class="menu-title" data-i18n="">User</span></a>-->
-<!--            </li>-->
+            <!--            <li class="active"><a href="/admin1/category"><i class="ft-credit-card"></i><span class="menu-title" data-i18n="">Category</span></a>-->
+            <!--            </li>-->
+            <!--            <li class="active"><a href="/admin1/tables"><i class="ft-credit-card"></i><span class="menu-title" data-i18n="">Products</span></a>-->
+            <!--            </li>-->
+            <!--            <li class="active"><a href="/admin1/user"><i class="ft-credit-card"></i><span class="menu-title" data-i18n="">User</span></a>-->
+            <!--            </li>-->
             <li class="nav-item has-sub">
                 <a href="#"><i class="ft-layers"></i><span class="menu-title" data-i18n="">Management</span></a>
                 <ul class="menu-content">
@@ -249,7 +249,7 @@
         <div class="content-wrapper-before"></div>
         <div class="content-header row">
             <div class="content-header-left col-md-4 col-12 mb-2">
-                <h3 class="content-header-title">Products</h3>
+                <h3 class="content-header-title">Tables</h3>
             </div>
             <div class="content-header-right col-md-8 col-12">
                 <div class="breadcrumbs-top float-md-right">
@@ -257,7 +257,7 @@
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Home</a>
                             </li>
-                            <li class="breadcrumb-item active">Products
+                            <li class="breadcrumb-item active">Order Details
                             </li>
                         </ol>
                     </div>
@@ -270,24 +270,24 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4 class="card-title">Products</h4>
-<!--                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>-->
+                            <h4 class="card-title">Order Detail</h4>
+                            <!--                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>-->
                             <div class="table-wtf mt-3">
-<!--                                <div class="search-container">-->
-<!--                                    <div class="input-group" >-->
-<!--                                        <input th:href="@{/admin1/searchProducts(search=${search})}"-->
-<!--                                               type="text"-->
-<!--                                               id="searchInput"-->
-<!--                                               class="form-control"-->
-<!--                                               th:method="post" placeholder="Search products..."-->
-<!--                                               th:value="${search}">-->
-<!--                                        <div class="input-group-append">-->
-<!--                                        <span class="input-group-text">-->
-<!--                                            <i class="ft-search"></i>-->
-<!--                                        </span>-->
-<!--                                        </div>-->
-<!--                                    </div>-->
-<!--                                </div>-->
+                                <!--                                <div class="search-container">-->
+                                <!--                                    <div class="input-group" >-->
+                                <!--                                        <input th:href="@{/admin1/searchProducts(search=${search})}"-->
+                                <!--                                               type="text"-->
+                                <!--                                               id="searchInput"-->
+                                <!--                                               class="form-control"-->
+                                <!--                                               th:method="post" placeholder="Search products..."-->
+                                <!--                                               th:value="${search}">-->
+                                <!--                                        <div class="input-group-append">-->
+                                <!--                                        <span class="input-group-text">-->
+                                <!--                                            <i class="ft-search"></i>-->
+                                <!--                                        </span>-->
+                                <!--                                        </div>-->
+                                <!--                                    </div>-->
+                                <!--                                </div>-->
                                 <form th:action="@{/admin1/paginationProducts}" th:method="post">
                                     <input type="text" name="search" placeholder="What do you need?" th:value="${search}">
                                     <button type="submit" class="site-btn">SEARCH</button>
@@ -298,17 +298,17 @@
                                 </a>
                             </div>
 
-<!--                            <a th:href="@{/admin1/products}" class="btn btn-primary btn-icon" role="button">-->
-<!--                                <i class="fa fa-plus"></i>-->
-<!--                            </a>-->
-<!--                            <div class="container mt-4">-->
-<!--                                <div class="input-group">-->
-<!--                                    <input type="text" id="searchInput" class="form-control" placeholder="Search by product name">-->
-<!--                                    <div class="input-group-append">-->
-<!--                                        <button class="btn btn-primary" type="button" onclick="searchProducts()">Search</button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
+                            <!--                            <a th:href="@{/admin1/products}" class="btn btn-primary btn-icon" role="button">-->
+                            <!--                                <i class="fa fa-plus"></i>-->
+                            <!--                            </a>-->
+                            <!--                            <div class="container mt-4">-->
+                            <!--                                <div class="input-group">-->
+                            <!--                                    <input type="text" id="searchInput" class="form-control" placeholder="Search by product name">-->
+                            <!--                                    <div class="input-group-append">-->
+                            <!--                                        <button class="btn btn-primary" type="button" onclick="searchProducts()">Search</button>-->
+                            <!--                                    </div>-->
+                            <!--                                </div>-->
+                            <!--                            </div>-->
 
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
@@ -329,63 +329,52 @@
                                         <thead>
                                         <tr>
                                             <th>Id</th>
-                                            <th>Product Name</th>
                                             <th>Product Image</th>
-                                            <th>Price</th>
+                                            <th>Product Name</th>
                                             <th>Quantity</th>
-                                            <th>Discount</th>
-                                            <th>Entered Date</th>
+                                            <th>Amount</th>
+                                            <th>Price</th>
+
                                             <th></th>
                                         </tr>
                                         </thead>
-                                        <tbody id="productTableBody">
-                                        <tr th:each="item : ${paginatedProducts}">
-                                            <th scope="row">[[${item.productId}]]</th>
-                                            <td>[[${item.productName}]]</td>
+                                        <tbody id="orderTableBody">
+                                        <tr th:each="item, count : ${orderDetail}">
+                                            <td class="text-center" th:text="${count.index+1}"></td>
                                             <td>
-<!--                                                <img th:src="@{'/productImages/'+${item.productImage}}" width="80px" alt="product" />-->
-                                                <img th:src="@{'/loadImage?imageName='+${item.productImage}}" width="80px" alt="product" />
+                                                <img th:src="@{'/loadImage?imageName='+${item.product.productImage}}" width="80px" alt="product" />
                                             </td>
-                                            <td>[[${item.price}]]</td>
+                                            <td>[[${item.product.productName}]]</td>
                                             <td>[[${item.quantity}]]</td>
-                                            <td>[[${item.discount}]]</td>
-                                            <td>[[${item.enteredDate}]]</td>
-                                            <td>
-                                                <a th:href="@{/admin1/editProducts/{productId}(productId=${item.productId})}" class="btn btn-success btn-icon">
-                                                    <i class="fa fa-edit"></i>
-                                                </a>
-                                                <a th:href="@{deleteProducts/{productId}(productId=${item.productId})}"
-                                                   class="btn btn-danger btn-icon"
-                                                   onclick="return confirmDelete();">
-                                                    <i class="fa fa-trash"></i>
-                                                </a>
-                                            </td>
+                                            <td>[[${#numbers.formatDecimal(item.price - (item.price * item.product.discount/100), 1, 'DEFAULT', 0, 'DEFAULT')}+ ' đ']]</td>
+                                            <td>[[${#numbers.formatDecimal((item.price - (item.price * item.product.discount/100)) * item.quantity, 1, 'DEFAULT', 0, 'DEFAULT')}+ ' đ']]</td>
+
                                         </tr>
                                         </tbody>
                                     </table>
                                 </div>
                             </div>
-                        <!--Pagination-->
-<!--                            <p th:text="${totalPages}"></p>-->
-<!--                            <p th:text="${totalProducts}"></p>-->
+                            <!--Pagination-->
+                            <!--                            <p th:text="${totalPages}"></p>-->
+                            <!--                            <p th:text="${totalProducts}"></p>-->
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
-<!--                                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">-->
-<!--                                        <a class="page-link" th:href="@{/admin1/paginationProducts(currentPage=${currentPage - 1})}" aria-label="Previous">-->
-<!--                                            <span aria-hidden="true">&laquo;</span>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
-                                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
-                                        <a class="page-link"
-                                           th:text="${pageNumber}"
-                                           th:href="@{/admin1/paginationProducts(currentPage=${pageNumber}, search=${search})}">
-                                        </a>
-                                    </li>
-<!--                                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">-->
-<!--                                        <a class="page-link" th:href="@{/admin1/paginationProducts(currentPage=${currentPage + 1})}" aria-label="Next">-->
-<!--                                            <span aria-hidden="true">&raquo;</span>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
+                                    <!--                                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">-->
+                                    <!--                                        <a class="page-link" th:href="@{/admin1/paginationProducts(currentPage=${currentPage - 1})}" aria-label="Previous">-->
+                                    <!--                                            <span aria-hidden="true">&laquo;</span>-->
+                                    <!--                                        </a>-->
+                                    <!--                                    </li>-->
+                                    <!--                                    <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">-->
+                                    <!--                                        <a class="page-link"-->
+                                    <!--                                           th:text="${pageNumber}"-->
+                                    <!--                                           th:href="@{/admin1/paginationProducts(currentPage=${pageNumber}, search=${search})}">-->
+                                    <!--                                        </a>-->
+                                    <!--                                    </li>-->
+                                    <!--                                    <li class="page-item" th:classappend="${currentPage == totalPages} ? 'disabled'">-->
+                                    <!--                                        <a class="page-link" th:href="@{/admin1/paginationProducts(currentPage=${currentPage + 1})}" aria-label="Next">-->
+                                    <!--                                            <span aria-hidden="true">&raquo;</span>-->
+                                    <!--                                        </a>-->
+                                    <!--                                    </li>-->
                                 </ul>
                             </nav>
                             <!--End Pagination-->
