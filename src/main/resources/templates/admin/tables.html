@@ -357,7 +357,7 @@
                                                 <img th:src="@{'/loadImage?imageName='+${item.productImage}}" width="80px" alt="product" />
                                             </td>
                                             <td>[[${item.price}]]</td>
-                                            <td>[[${item.quantity}]]</td>
+                                            <td>[[${item.quantity == 0 ? 'hết hàng' : item.quantity}]]</td>
                                             <td>[[${item.discount}]]</td>
                                             <td>[[${item.enteredDate}]]</td>
                                             <td>
@@ -380,11 +380,6 @@
 <!--                            <p th:text="${totalProducts}"></p>-->
                             <nav aria-label="Page navigation example">
                                 <ul class="pagination">
-<!--                                    <li class="page-item" th:classappend="${currentPage == 1} ? 'disabled'">-->
-<!--                                        <a class="page-link" th:href="@{/admin1/paginationProducts(currentPage=${currentPage - 1})}" aria-label="Previous">-->
-<!--                                            <span aria-hidden="true">&laquo;</span>-->
-<!--                                        </a>-->
-<!--                                    </li>-->
                                     <li class="page-item" th:each="pageNumber : ${#numbers.sequence(1, totalPages)}">
                                         <a class="page-link"
                                            th:text="${pageNumber}"

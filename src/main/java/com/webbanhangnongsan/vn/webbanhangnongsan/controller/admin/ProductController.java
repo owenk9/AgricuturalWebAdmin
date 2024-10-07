@@ -78,7 +78,6 @@
         public String products(Model model) {
             Product product = new Product();
             model.addAttribute("adminProduct", product);
-    
             return "admin/forms/add_new_products";
         }
     
@@ -90,32 +89,35 @@
         }
     
         @PostMapping("/addProducts")
-        public String addNewProducts(@ModelAttribute("adminProduct") Product product, ModelMap model, @RequestParam("file") MultipartFile file){
-
-            try {
-
-                File convFile = new File(pathUploadImage + "/" + file.getOriginalFilename());
-                FileOutputStream fos = new FileOutputStream(convFile);
-                fos.write(file.getBytes());
-                fos.close();
-            } catch (IOException e) {
-                model.addAttribute("message", "File upload failed: " + e.getMessage());
-                return "redirect:/admin1/tables";
-            }
-
-            product.setProductImage(file.getOriginalFilename());
-            Product p = productRepository.save(product);
-            if (null != p) {
-                model.addAttribute("message", "Update success");
-                model.addAttribute("product", product);
+        public String addNewProducts(@ModelAttribute("adminProduct") Product product, ModelMap model, @RequestParam("file") MultipartFile file) {
+            if (productRepository.existsProductByProductName(product.getProductName()) > 0) {
+                model.addAttribute("existProductName", "sản phẩm đã tồn tại");
             } else {
-                model.addAttribute("message", "Update failure");
-                model.addAttribute("product", product);
+                try {
+                    // Lưu file hình ảnh
+                    File convFile = new File(pathUploadImage + "/" + file.getOriginalFilename());
+                    FileOutputStream fos = new FileOutputStream(convFile);
+                    fos.write(file.getBytes());
+                    fos.close();
+
+                    product.setProductImage(file.getOriginalFilename());
+                    Product p = productRepository.save(product);
+
+                    if (p != null) {
+                        model.addAttribute("message", "Thêm sản phẩm thành công");
+                    } else {
+                        model.addAttribute("message", "Thêm sản phẩm thất bại");
+                    }
+                } catch (IOException e) {
+                    model.addAttribute("message", "File upload failed: " + e.getMessage());
+                    return "redirect:/admin1/tables";
+                }
             }
             return "redirect:/admin1/tables";
         }
-    
-    //     Hiển thị form chỉnh sửa sản phẩm
+
+
+        //     Hiển thị form chỉnh sửa sản phẩm
         @GetMapping("/editProducts/{id}")
         public String editProductForm(@PathVariable("id") Long id, Model model) {
             Product product = productRepository.findById(id).orElse(null);

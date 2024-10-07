@@ -31,4 +31,7 @@ public interface ProductRepository extends JpaRepository<Product,Long> {
 
     @Query(value = "SELECT * FROM products WHERE product_name LIKE CONCAT('%', :productName, '%')", nativeQuery = true)
     List<Product> findByProductNameContaining(@Param("productName") String productName);
+
+    @Query(value = "SELECT count(*) FROM products WHERE product_name LIKE CONCAT('%', :productName, '%')", nativeQuery = true)
+    public int existsProductByProductName(String productName);
 }
