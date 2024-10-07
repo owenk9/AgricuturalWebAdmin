@@ -14,10 +14,7 @@ public class OrderAdminService {
     @Autowired
     OrderRepository orderRepository;
     private final static int pageSize = 1;
-//    public List<Order> listAll()
-//    {
-//        return orderRepository.findAll();
-//    }
+    public List<Order> listAll() { return orderRepository.findAll();}
     public List<Order> paginatedCategories(String search, int currentPage) {
         int offSet = (currentPage - 1) * pageSize;
         List<Order> searchOrderList = orderRepository.findAll()
