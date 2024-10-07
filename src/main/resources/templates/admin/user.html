@@ -163,20 +163,20 @@
                 <ul class="nav navbar-nav mr-auto float-left">
                     <li class="nav-item d-block d-md-none"><a class="nav-link nav-menu-main menu-toggle hidden-xs" href="#"><i class="ft-menu"></i></a></li>
                     <li class="nav-item d-none d-md-block"><a class="nav-link nav-link-expand" href="#"><i class="ficon ft-maximize"></i></a></li>
-                    <li class="nav-item dropdown navbar-search"><a class="nav-link dropdown-toggle hide" data-toggle="dropdown" href="#"><i class="ficon ft-search"></i></a>
-                        <ul class="dropdown-menu">
-                            <li class="arrow_box">
-                                <form>
-                                    <div class="input-group search-box">
-                                        <div class="position-relative has-icon-right full-width">
-                                            <input class="form-control" id="search" type="text" placeholder="Search here...">
-                                            <div class="form-control-position navbar-search-close"><i class="ft-x">   </i></div>
-                                        </div>
-                                    </div>
-                                </form>
-                            </li>
-                        </ul>
-                    </li>
+<!--                    <li class="nav-item dropdown navbar-search"><a class="nav-link dropdown-toggle hide" data-toggle="dropdown" href="#"><i class="ficon ft-search"></i></a>-->
+<!--                        <ul class="dropdown-menu">-->
+<!--                            <li class="arrow_box">-->
+<!--                                <form>-->
+<!--                                    <div class="input-group search-box">-->
+<!--                                        <div class="position-relative has-icon-right full-width">-->
+<!--                                            <input class="form-control" id="search" type="text" placeholder="Search here...">-->
+<!--                                            <div class="form-control-position navbar-search-close"><i class="ft-x">   </i></div>-->
+<!--                                        </div>-->
+<!--                                    </div>-->
+<!--                                </form>-->
+<!--                            </li>-->
+<!--                        </ul>-->
+<!--                    </li>-->
                 </ul>
                 <ul class="nav navbar-nav float-right">
                     <li class="dropdown dropdown-language nav-item"><a class="dropdown-toggle nav-link" id="dropdown-flag" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="flag-icon flag-icon-us"></i><span class="selected-language"></span></a>
@@ -238,8 +238,16 @@
 
                 </ul>
             </li>
+            <li class="nav-item has-sub">
+                <a href="#"><i class="ft-layers"></i><span class="menu-title" data-i18n="">Static</span></a>
+                <ul class="menu-content">
+                    <li><a class="menu-item" href="/admin1/tables"><i class="ft-credit-card"></i> Products</a></li>
+                    <li><a class="menu-item" href="/admin1/category"><i class="ft-credit-card"></i> Category</a></li>
+                    <li><a class="menu-item" href="/admin1/user"><i class="ft-credit-card"></i> User</a></li>
+                    <li><a class="menu-item" href="/admin1/orders"><i class="ft-credit-card"></i> Order</a></li>
 
-
+                </ul>
+            </li>
         </ul>
     </div><a class="btn btn-danger btn-block btn-glow btn-upgrade-pro mx-1" href="https://themeselection.com/products/chameleon-admin-modern-bootstrap-webapp-dashboard-html-template-ui-kit/" target="_blank">Download PRO!</a>
     <div class="navigation-background"></div>
@@ -292,7 +300,7 @@
                                 </form>
 
                                 <a th:href="@{/admin1/users}" class="btn btn-primary btn-rect">
-                                    <i class="fa fa-plus"></i> New User
+                                    <i class="fa fa-plus mr-1"></i> New User
                                 </a>
                             </div>
 

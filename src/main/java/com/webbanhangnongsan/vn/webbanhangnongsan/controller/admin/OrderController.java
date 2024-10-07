@@ -6,16 +6,14 @@ import com.webbanhangnongsan.vn.webbanhangnongsan.repository.OrderRepository;
 import com.webbanhangnongsan.vn.webbanhangnongsan.repository.ProductRepository;
 import com.webbanhangnongsan.vn.webbanhangnongsan.repository.UserRepository;
 import com.webbanhangnongsan.vn.webbanhangnongsan.service.SendMailService;
-import com.webbanhangnongsan.vn.webbanhangnongsan.service.admin.OrderDetailService;
+import com.webbanhangnongsan.vn.webbanhangnongsan.service.admin.OrderAdminService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.security.Principal;
 import java.util.List;
@@ -25,7 +23,7 @@ import java.util.Optional;
 @RequestMapping("/admin1")
 public class OrderController {
     @Autowired
-    OrderDetailService orderDetailService;
+    OrderAdminService orderDetailService;
     @Autowired
     OrderRepository orderRepository;
     @Autowired
@@ -36,6 +34,8 @@ public class OrderController {
     UserRepository userRepository;
     @Autowired
     private OrderDetailRepository orderDetailRepository;
+    @Autowired
+    private OrderAdminService orderAdminService;
 
     @ModelAttribute(value = "user")
     public User user(Model model, Principal principal, User user) {
@@ -53,6 +53,7 @@ public class OrderController {
     @GetMapping("/orders")
     public String orders(Model model){
         getData(model);
+        paginatedOrders(model, 1, "");
         return "admin/orders";
     }
     public void getData(Model model){
@@ -117,6 +118,26 @@ public class OrderController {
         }
 
         return new ModelAndView("forward:/admin1/orders", model);
+    }
+
+    @PostMapping("/paginationOrders")
+    public String handleSearch(@RequestParam("search") String search, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addAttribute("search", search);
+        redirectAttributes.addAttribute("currentPage", 1); // Đặt trang mặc định là 1
+        return "redirect:/admin1/paginationOrders"; // Chuyển hướng đến phương thức GET searchProducts
+    }
+
+    @GetMapping("/paginationOrders")
+    public String paginatedOrders(Model model,
+                                      @RequestParam("currentPage") int currentPage,
+                                      @RequestParam("search") String search) {
+        List<Order> orderList = orderAdminService.paginatedCategories(search, currentPage);
+        int totalPage = orderAdminService.totalPage(search);
+        model.addAttribute("search", search);
+        model.addAttribute("paginatedOrders", orderList);
+        model.addAttribute("currentPage", currentPage);
+        model.addAttribute("totalPages", totalPage);
+        return "admin/orders";
     }
 
 }
